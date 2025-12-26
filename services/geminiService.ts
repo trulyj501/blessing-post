@@ -1,5 +1,6 @@
 
 import { GoogleGenAI } from "@google/genai";
+import { CardStyle } from "../types";
 
 const getAI = () => new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
 
@@ -15,9 +16,17 @@ export const generateBlessingText = async (recipient: string, theme: string): Pr
   return response.text || "축복이 당신의 삶에 가득하길 바랍니다.";
 };
 
-export const generateCardImage = async (theme: string): Promise<string> => {
+const STYLE_PROMPTS: Record<CardStyle, string> = {
+  watercolor: "soft warm watercolor illustration, bleeding colors, cozy, hand-painted aesthetic",
+  minimalist: "clean minimalist illustration, simple lines, vast negative space, elegant and modern",
+  popart: "vibrant pop art style, bold colors, high contrast, graphic design elements, cheerful",
+  fantasy: "mystical fantasy art, glowing particles, ethereal lighting, magical atmosphere, dreamlike"
+};
+
+export const generateCardImage = async (theme: string, style: CardStyle): Promise<string> => {
   const ai = getAI();
-  const prompt = `A warm, artistic, soft watercolor illustration for a blessing card. Theme: ${theme}. Soft lighting, cozy aesthetic, high quality, no text on the image.`;
+  const styleDescription = STYLE_PROMPTS[style];
+  const prompt = `An artistic illustration for a blessing card. Theme: ${theme}. Style: ${styleDescription}. High quality, professional art, no text on image.`;
   
   const response = await ai.models.generateContent({
     model: 'gemini-2.5-flash-image',
@@ -41,9 +50,9 @@ export const generateCardImage = async (theme: string): Promise<string> => {
   return imageUrl;
 };
 
-export const generateFigureImage = async (theme: string, recipient: string): Promise<string> => {
+export const generateFigureImage = async (theme: string, recipient: string, style: CardStyle): Promise<string> => {
   const ai = getAI();
-  const prompt = `A cute 3D isometric collectible miniature figure representing a blessing for ${recipient}. Theme is related to ${theme}. Studio lighting, clean background, claymorphism style, adorable, premium toy aesthetic.`;
+  const prompt = `A 3D isometric collectible miniature figure in a display case. The figure represents a blessing for ${recipient} with theme ${theme}. Aesthetic style influenced by ${style}. Studio lighting, clean background, premium toy/art toy aesthetic, adorable and highly detailed.`;
   
   const response = await ai.models.generateContent({
     model: 'gemini-2.5-flash-image',

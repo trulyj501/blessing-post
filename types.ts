@@ -1,10 +1,13 @@
 
+export type CardStyle = 'watercolor' | 'minimalist' | 'popart' | 'fantasy';
+
 export interface BlessingCard {
   id: string;
   recipient: string;
   theme: string;
   message: string;
   imageUrl: string;
+  style: CardStyle;
   createdAt: number;
 }
 
