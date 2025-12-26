@@ -1,0 +1,7 @@
+{
+  "name": "블레싱 우체국 (Blessing Post Office)",
+  "description": "AI를 활용하여 따뜻한 축복의 메시지와 디지털 카드, 입체 피규어를 생성하고 마음을 전하는 디지털 우체국 서비스입니다.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
